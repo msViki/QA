@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<store name="Cosmetics">
+	<catalog>
+		<lipstick id="L01">
+			<brand>Rouge&amp;Co</brand>
+			<productName>Velvet Kiss</productName>
+			<shade>Nude Pink</shade>
+			<finish>matte</finish>
+			<weight>4g</weight>
+			<scent>vanilla</scent>
+			<country>France</country>
+			<price>$22</price>
+			<expiration unit="months" afterOpening="true">24</expiration>
+			<mainIngredient organic="true">shea butter</mainIngredient>
+		</lipstick>
+		<lipstick id="L02">
+			<brand>ColorMuse</brand>
+			<productName>Urban Rose</productName>
+			<shade>Dusty Rose</shade>
+			<finish>satin</finish>
+			<weight>3.8g</weight>
+			<scent>rose</scent>
+			<country>Italy</country>
+			<price>$20</price>
+			<expiration unit="months" afterOpening="true">18</expiration>
+			<mainIngredient organic="false">beeswax</mainIngredient>
+		</lipstick>
+		<lipstick id="L03">
+			<brand>GlowLine</brand>
+			<productName>Cherry Bloom</productName>
+			<shade>Cherry Red</shade>
+			<finish>glossy</finish>
+			<weight>4.2g</weight>
+			<scent>cherry</scent>
+			<country>USA</country>
+			<price>$24</price>
+			<expiration unit="months" afterOpening="true">24</expiration>
+			<mainIngredient organic="true">vitamin E</mainIngredient>
+		</lipstick>
+		<lipstick id="L04">
+			<brand>BelleSkin</brand>
+			<productName>Soft Coral</productName>
+			<shade>Coral</shade>
+			<finish>semi-matte</finish>
+			<weight>4g</weight>
+			<scent>peach</scent>
+			<country>Spain</country>
+			<price>$19</price>
+			<expiration unit="months" afterOpening="true">18</expiration>
+			<mainIngredient organic="false">natural oils</mainIngredient>
+		</lipstick>
+		<lipstick id="L05">
+			<brand>NudeLab</brand>
+			<productName>Natural Touch</productName>
+			<shade>Warm Beige</shade>
+			<finish>matte</finish>
+			<weight>3.9g</weight>
+			<scent>neutral</scent>
+			<country>Germany</country>
+			<price>$21</price>
+			<expiration unit="months" afterOpening="true">24</expiration>
+			<mainIngredient organic="true">aloe vera</mainIngredient>
+		</lipstick>
+		<lipstick id="L06">
+			<brand>EcoBeauty</brand>
+			<productName>Pure Nude</productName>
+			<shade>Light Nude</shade>
+			<finish>natural</finish>
+			<weight>4g</weight>
+			<scent>chamomile</scent>
+			<country>Switzerland</country>
+			<price>$28</price>
+			<expiration unit="months" afterOpening="true">24</expiration>
+			<mainIngredient organic="true">plant oils</mainIngredient>
+		</lipstick>
+		<lipstick id="L07">
+			<brand>LipArt</brand>
+			<productName>Ruby Night</productName>
+			<shade>Deep Red</shade>
+			<finish>satin</finish>
+			<weight>4.5g</weight>
+			<scent>berry</scent>
+			<country>UK</country>
+			<price>$26</price>
+			<expiration unit="months" afterOpening="true">30</expiration>
+			<mainIngredient organic="false">carnauba wax</mainIngredient>
+		</lipstick>
+		<lipstick id="L08">
+			<brand>TrendyLook</brand>
+			<productName>Pink Flash</productName>
+			<shade>Hot Pink</shade>
+			<finish>glossy</finish>
+			<weight>3.7g</weight>
+			<scent>strawberry</scent>
+			<country>South Korea</country>
+			<price>$18</price>
+			<expiration unit="months" afterOpening="true">18</expiration>
+			<mainIngredient organic="false">synthetic pigments</mainIngredient>
+		</lipstick>
+		<lipstick id="L09">
+			<brand>ClassicLine</brand>
+			<productName>Wine Charm</productName>
+			<shade>Burgundy</shade>
+			<finish>matte</finish>
+			<weight>4.3g</weight>
+			<scent>wine</scent>
+			<country>Chile</country>
+			<price>$23</price>
+			<expiration unit="months" afterOpening="true">30</expiration>
+			<mainIngredient organic="true">antioxidants</mainIngredient>
+		</lipstick>
+		<lipstick id="L10">
+			<brand>DailyWear</brand>
+			<productName>Soft Berry</productName>
+			<shade>Berry Pink</shade>
+			<finish>satin</finish>
+			<weight>4g</weight>
+			<scent>berry</scent>
+			<country>Poland</country>
+			<price>$17</price>
+			<expiration unit="months" afterOpening="true">18</expiration>
+			<mainIngredient organic="false">oils and waxes</mainIngredient>
+		</lipstick>
+	</catalog>
+</store>

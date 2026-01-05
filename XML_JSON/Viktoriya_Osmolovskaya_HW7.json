@@ -1,0 +1,211 @@
+{
+	"store": {
+		"name": "Cosmetics",
+		"catalog": [
+			{
+				"lipsticks": [
+					{
+						"id": "L01",
+						"brand": "Rouge&Co",
+						"productName": "Velvet Kiss",
+						"shade": "Nude Pink",
+						"finish": "matte",
+						"weight": "4g",
+						"scent": "vanilla",
+						"country": "France",
+						"price": "$22",
+						"expiration": {
+							"value": 24,
+							"unit": "months",
+							"afterOpening": true
+						},
+						"mainIngredient": {
+							"name": "shea butter",
+							"organic": true
+						}
+					},
+					{
+						"id": "L02",
+						"brand": "ColorMuse",
+						"productName": "Urban Rose",
+						"shade": "Dusty Rose",
+						"finish": "satin",
+						"weight": "3.8g",
+						"scent": "rose",
+						"country": "Italy",
+						"price": "$20",
+						"expiration": {
+							"value": 18,
+							"unit": "months",
+							"afterOpening": true
+						},
+						"mainIngredient": {
+							"name": "beeswax",
+							"organic": false
+						}
+					},
+					{
+						"id": "L03",
+						"brand": "GlowLine",
+						"productName": "Cherry Bloom",
+						"shade": "Cherry Red",
+						"finish": "glossy",
+						"weight": "4.2g",
+						"scent": "cherry",
+						"country": "USA",
+						"price": "$24",
+						"expiration": {
+							"value": 24,
+							"unit": "months",
+							"afterOpening": true
+						},
+						"mainIngredient": {
+							"name": "vitamin E",
+							"organic": true
+						}
+					},
+					{
+						"id": "L04",
+						"brand": "BelleSkin",
+						"productName": "Soft Coral",
+						"shade": "Coral",
+						"finish": "semi-matte",
+						"weight": "4g",
+						"scent": "peach",
+						"country": "Spain",
+						"price": "$19",
+						"expiration": {
+							"value": 18,
+							"unit": "months",
+							"afterOpening": true
+						},
+						"mainIngredient": {
+							"name": "natural oils",
+							"organic": false
+						}
+					},
+					{
+						"id": "L05",
+						"brand": "NudeLab",
+						"productName": "Natural Touch",
+						"shade": "Warm Beige",
+						"finish": "matte",
+						"weight": "3.9g",
+						"scent": "neutral",
+						"country": "Germany",
+						"price": "$21",
+						"expiration": {
+							"value": 24,
+							"unit": "months",
+							"afterOpening": true
+						},
+						"mainIngredient": {
+							"name": "aloe vera",
+							"organic": true
+						}
+					},
+					{
+						"id": "L06",
+						"brand": "EcoBeauty",
+						"productName": "Pure Nude",
+						"shade": "Light Nude",
+						"finish": "natural",
+						"weight": "4g",
+						"scent": "chamomile",
+						"country": "Switzerland",
+						"price": "$28",
+						"expiration": {
+							"value": 24,
+							"unit": "months",
+							"afterOpening": true
+						},
+						"mainIngredient": {
+							"name": "plant oils",
+							"organic": true
+						}
+					},
+					{
+						"id": "L07",
+						"brand": "LipArt",
+						"productName": "Ruby Night",
+						"shade": "Deep Red",
+						"finish": "satin",
+						"weight": "4.5g",
+						"scent": "berry",
+						"country": "UK",
+						"price": "$26",
+						"expiration": {
+							"value": 30,
+							"unit": "months",
+							"afterOpening": true
+						},
+						"mainIngredient": {
+							"name": "carnauba wax",
+							"organic": false
+						}
+					},
+					{
+						"id": "L08",
+						"brand": "TrendyLook",
+						"productName": "Pink Flash",
+						"shade": "Hot Pink",
+						"finish": "glossy",
+						"weight": "3.7g",
+						"scent": "strawberry",
+						"country": "South Korea",
+						"price": "$18",
+						"expiration": {
+							"value": 18,
+							"unit": "months",
+							"afterOpening": true
+						},
+						"mainIngredient": {
+							"name": "synthetic pigments",
+							"organic": false
+						}
+					},
+					{
+						"id": "L09",
+						"brand": "ClassicLine",
+						"productName": "Wine Charm",
+						"shade": "Burgundy",
+						"finish": "matte",
+						"weight": "4.3g",
+						"scent": "wine",
+						"country": "Chile",
+						"price": "$23",
+						"expiration": {
+							"value": 30,
+							"unit": "months",
+							"afterOpening": true
+						},
+						"mainIngredient": {
+							"name": "antioxidants",
+							"organic": true
+						}
+					},
+					{
+						"id": "L10",
+						"brand": "DailyWear",
+						"productName": "Soft Berry",
+						"shade": "Berry Pink",
+						"finish": "satin",
+						"weight": "4g",
+						"scent": "berry",
+						"country": "Poland",
+						"price": "$17",
+						"expiration": {
+							"value": 18,
+							"unit": "months",
+							"afterOpening": true
+						},
+						"mainIngredient": {
+							"name": "oils and waxes",
+							"organic": false
+						}
+					}
+				]
+			}	
+		]
+	}
+}
