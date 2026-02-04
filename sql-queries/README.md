@@ -1,1 +1,5 @@
-https://docs.google.com/document/d/1HnYYSd1v-dSlpBbijPfRSM8GdFyIu_EJJtuIulXSXSc/edit?tab=t.0 
+Completed SQL exercises demonstrating database querying skills:
+
+SELECT statements with various conditions
+Data filtering and sorting
+Working with multiple tables
