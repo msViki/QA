@@ -1,0 +1,3834 @@
+{
+	"info": {
+		"_postman_id": "2f129bd0-e446-4cf8-ac59-45f3fbb50b83",
+		"name": "Osmolovskaya collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50774110",
+		"_collection_link": "https://osmolovskaya2000-4764378.postman.co/workspace/QA-Andersen~f8bf3610-933b-43e3-ae6e-693056501242/collection/50774110-2f129bd0-e446-4cf8-ac59-45f3fbb50b83?action=share&source=collection_link&creator=50774110"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"item": [
+				{
+					"name": "Invalid requests",
+					"item": [
+						{
+							"name": "firstName - Empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+											"\r",
+											"var currentDate = new Date();\r",
+											"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+											"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The field is required.\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error is for firstName\", function () {\r",
+											"  pm.expect(json[0].field).to.eql(\"firstName\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "firstName - Invalid (BUG: 200 OK)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+											"\r",
+											"var currentDate = new Date();\r",
+											"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+											"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"First name should have correct format\"); \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"!!@$()_\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "lastName - Empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+											"\r",
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"var currentDate = new Date();\r",
+											"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+											"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The field is required.\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error is for firstName\", function () {\r",
+											"  pm.expect(json[0].field).to.eql(\"lastName\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "lastName - Invalid (BUG: 200 OK)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+											"\r",
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"var currentDate = new Date();\r",
+											"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+											"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"Last name should have correct format\"); \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"%&!##+\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "email - Empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+											"\r",
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The field is required.\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error is for email\", function () {\r",
+											"  pm.expect(json[0].field).to.eql(\"email\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "email - Invalid",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+											"\r",
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"Email should have correct format\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error is for email\", function () {\r",
+											"  pm.expect(json[0].field).to.eql(\"email\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"invalid-email\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "dateOfBirth - Empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+											"\r",
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+											"\r",
+											"var currentDate = new Date();\r",
+											"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+											"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The field is required.\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error is for dateOfBirth\", function () {\r",
+											"  pm.expect(json[0].field).to.eql(\"dateOfBirth\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "dateOfBirth - Invalid (BUG: 200 OK)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+											"\r",
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+											"\r",
+											"var currentDate = new Date();\r",
+											"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+											"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"Date of birth should have correct format\"); \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"2100/12/31\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "password - Empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+											"\r",
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+											"\r",
+											"var currentDate = new Date();\r",
+											"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+											"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The field is required.\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error is for password\", function () {\r",
+											"  pm.expect(json[0].field).to.eql(\"password\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "password <8 chars (BUG: 200 OK)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+											"\r",
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+											"\r",
+											"var currentDate = new Date();\r",
+											"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+											"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The value length shouldn't be less than 8 symbols.\"); \r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"Test1!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "password >20 chars",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+											"\r",
+											"function randName(n) {\r",
+											"let s = '';\r",
+											"while (s.length < n)\r",
+											"s += String.fromCharCode(Math.random() *\r",
+											"127).replace(/\\W|\\dl_/g,'');\r",
+											"return s;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+											"\r",
+											"var currentDate = new Date();\r",
+											"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+											"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The value length shouldn't exceed 20 symbols.\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error is for password\", function () {\r",
+											"  pm.expect(json[0].field).to.eql(\"password\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"TestPassword1234567890!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"registration"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Valid request",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+									"\r",
+									"function randName(n) {\r",
+									"let s = '';\r",
+									"while (s.length < n)\r",
+									"s += String.fromCharCode(Math.random() *\r",
+									"127).replace(/\\W|\\dl_/g,'');\r",
+									"return s;\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+									"\r",
+									"var currentDate = new Date();\r",
+									"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+									"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var responseJson = pm.response.json();\r",
+									"pm.environment.set(\"token\", responseJson[\"jwt-token\"]);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"public",
+								"registration"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Invalid requests",
+					"item": [
+						{
+							"name": "email - Empty (BUG: 401 Unauthorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json.message).to.eql(\"Invalid Login Credentials\"); \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/login",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"login"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/login' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "email - Incorrect",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json.message).to.eql(\"Invalid Login Credentials\"); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"NotExisting@mail.ru\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/login",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"login"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/login' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "email - Invalid (BUG: no error message)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error type is Bad Request\", function () {\r",
+											"  pm.expect(json.error).to.eql(\"Bad Request\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error message exists\", function () {\r",
+											"  pm.expect(json).to.have.property(\"message\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"invalid-email\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/login",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"login"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/login' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "password - Empty (BUG: 401 Unauthorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json.message).to.eql(\"Invalid Login Credentials\"); \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/login",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"login"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/login' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "password - Incorrect",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json.message).to.eql(\"Invalid Login Credentials\"); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"NotExisting\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/login",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"login"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/login' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "password <8 chars (BUG: 401 Unauthorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json.message).to.eql(\"Invalid Login Credentials\"); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"test1!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/login",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"login"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/login' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "password >20 chars (BUG: 401 Unauthorized)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json.message).to.eql(\"Invalid Login Credentials\"); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"TestPassword1234567890!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/public/login",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"public",
+										"login"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/login' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Valid request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var responseJson = pm.response.json();\r",
+									"pm.environment.set(\"token\", responseJson[\"jwt-token\"]);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/public/login",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"public",
+								"login"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/login' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update user",
+			"item": [
+				{
+					"name": "Invalid requests",
+					"item": [
+						{
+							"name": "firstName - Empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedLastName\",\r",
+											"  pm.environment.get(\"surname\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"const moment = require('moment');\r",
+											"\r",
+											"let randomDate = moment().add(-5, 'years').add(-7,\r",
+											"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+											"\r",
+											"pm.environment.set(\"changedDoB\", randomDate);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The field is required.\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error is for firstName\", function () {\r",
+											"  pm.expect(json[0].field).to.eql(\"firstName\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "firstName - Invalid (BUG: 200 OK)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedLastName\",\r",
+											"  pm.environment.get(\"surname\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"const moment = require('moment');\r",
+											"\r",
+											"let randomDate = moment().add(-5, 'years').add(-7,\r",
+											"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+											"\r",
+											"pm.environment.set(\"changedDoB\", randomDate);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"First name should have correct format\"); \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"!!@$()_\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "lastName - Empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedFirstName\",\r",
+											"  pm.environment.get(\"name\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"const moment = require('moment');\r",
+											"\r",
+											"let randomDate = moment().add(-5, 'years').add(-7,\r",
+											"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+											"\r",
+											"pm.environment.set(\"changedDoB\", randomDate);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The field is required.\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error is for lastName\", function () {\r",
+											"  pm.expect(json[0].field).to.eql(\"lastName\");\r",
+											"});\r",
+											" "
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "lastName - Invalid (BUG: 200 OK)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedFirstName\",\r",
+											"  pm.environment.get(\"name\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"const moment = require('moment');\r",
+											"\r",
+											"let randomDate = moment().add(-5, 'years').add(-7,\r",
+											"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+											"\r",
+											"pm.environment.set(\"changedDoB\", randomDate);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"Last name should have correct format\"); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"%&!##+\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "dateOfBirth - Empty",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedFirstName\",\r",
+											"  pm.environment.get(\"name\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"pm.environment.set(\r",
+											"  \"changedLastName\",\r",
+											"  pm.environment.get(\"surname\") + \"UPD\"\r",
+											");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The field is required.\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Error is for dateOfBirth\", function () {\r",
+											"  pm.expect(json[0].field).to.eql(\"dateOfBirth\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "dateOfBirth - Invalid (BUG: 200 OK)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedFirstName\",\r",
+											"  pm.environment.get(\"name\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"pm.environment.set(\r",
+											"  \"changedLastName\",\r",
+											"  pm.environment.get(\"surname\") + \"UPD\"\r",
+											");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"Date of birth should have correct format\"); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"31.12.2100\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "password - Empty (BUG: 200 OK)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedFirstName\",\r",
+											"  pm.environment.get(\"name\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"pm.environment.set(\r",
+											"  \"changedLastName\",\r",
+											"  pm.environment.get(\"surname\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"const moment = require('moment');\r",
+											"\r",
+											"let randomDate = moment().add(-5, 'years').add(-7,\r",
+											"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+											"\r",
+											"pm.environment.set(\"changedDoB\", randomDate);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The field is required.\"); \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "password <8 chars (BUG: 200 OK)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedFirstName\",\r",
+											"  pm.environment.get(\"name\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"pm.environment.set(\r",
+											"  \"changedLastName\",\r",
+											"  pm.environment.get(\"surname\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"const moment = require('moment');\r",
+											"\r",
+											"let randomDate = moment().add(-5, 'years').add(-7,\r",
+											"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+											"\r",
+											"pm.environment.set(\"changedDoB\", randomDate);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The value length shouldn't be less than 8 symbols.\"); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "password >20 chars",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedFirstName\",\r",
+											"  pm.environment.get(\"name\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"pm.environment.set(\r",
+											"  \"changedLastName\",\r",
+											"  pm.environment.get(\"surname\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"const moment = require('moment');\r",
+											"\r",
+											"let randomDate = moment().add(-5, 'years').add(-7,\r",
+											"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+											"\r",
+											"pm.environment.set(\"changedDoB\", randomDate);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"\r",
+											"pm.test(\"Error message is correct\", function () {\r",
+											"  pm.expect(json[0].message).to.eql(\"The value length shouldn't exceed 20 symbols.\"); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"TestPassword1234567890!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Valid requests",
+					"item": [
+						{
+							"name": "User data changed",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedFirstName\",\r",
+											"  pm.environment.get(\"name\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"pm.environment.set(\r",
+											"  \"changedLastName\",\r",
+											"  pm.environment.get(\"surname\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"const moment = require('moment');\r",
+											"\r",
+											"let randomDate = moment().add(-5, 'years').add(-7,\r",
+											"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+											"\r",
+											"pm.environment.set(\"changedDoB\", randomDate);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"const name = pm.environment.get(\"name\");\r",
+											"const surname = pm.environment.get(\"surname\");\r",
+											"const dateOfBirth = pm.environment.get(\"dateOfBirth\");\r",
+											"const changedFirstName = pm.environment.get(\"changedFirstName\");\r",
+											"const changedLastName = pm.environment.get(\"changedLastName\");\r",
+											"const changedDoB = pm.environment.get(\"changedDoB\");\r",
+											"\r",
+											"pm.test(\"firstName changed correctly\", function () {\r",
+											"  pm.expect(name).to.not.eql(changedFirstName);\r",
+											"  pm.expect(json.firstName).to.eql(changedFirstName);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"lastName changed correctly\", function () {\r",
+											"  pm.expect(surname).to.not.eql(changedLastName);\r",
+											"  pm.expect(json.lastName).to.eql(changedLastName);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"dateOfBirth changed correctly\", function () {\r",
+											"  pm.expect(dateOfBirth).to.not.eql(changedDoB);\r",
+											"  pm.expect(json.dateOfBirth).to.eql(changedDoB);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "firstName - Same value",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedLastName\",\r",
+											"  pm.environment.get(\"surname\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"const moment = require('moment');\r",
+											"\r",
+											"let randomDate = moment().add(-5, 'years').add(-7,\r",
+											"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+											"\r",
+											"pm.environment.set(\"changedDoB\", randomDate);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"const name = pm.environment.get(\"name\");\r",
+											"const surname = pm.environment.get(\"surname\");\r",
+											"const dateOfBirth = pm.environment.get(\"dateOfBirth\");\r",
+											"const changedLastName = pm.environment.get(\"changedLastName\");\r",
+											"const changedDoB = pm.environment.get(\"changedDoB\");\r",
+											"\r",
+											"pm.test(\"firstName is not changed\", function () {\r",
+											"  pm.expect(json.firstName).to.eql(name);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"lastName changed correctly\", function () {\r",
+											"  pm.expect(surname).to.not.eql(changedLastName);\r",
+											"  pm.expect(json.lastName).to.eql(changedLastName);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"dateOfBirth changed correctly\", function () {\r",
+											"  pm.expect(dateOfBirth).to.not.eql(changedDoB);\r",
+											"  pm.expect(json.dateOfBirth).to.eql(changedDoB);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "lastName - Same value",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedFirstName\",\r",
+											"  pm.environment.get(\"name\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"const moment = require('moment');\r",
+											"\r",
+											"let randomDate = moment().add(-5, 'years').add(-7,\r",
+											"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+											"\r",
+											"pm.environment.set(\"changedDoB\", randomDate);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"const name = pm.environment.get(\"name\");\r",
+											"const surname = pm.environment.get(\"surname\");\r",
+											"const dateOfBirth = pm.environment.get(\"dateOfBirth\");\r",
+											"const changedFirstName = pm.environment.get(\"changedFirstName\");\r",
+											"const changedDoB = pm.environment.get(\"changedDoB\");\r",
+											"\r",
+											"pm.test(\"firstName changed correctly\", function () {\r",
+											"  pm.expect(name).to.not.eql(changedFirstName);\r",
+											"  pm.expect(json.firstName).to.eql(changedFirstName);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"lastName is not changed\", function () {\r",
+											"  pm.expect(json.lastName).to.eql(surname);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"dateOfBirth changed correctly\", function () {\r",
+											"  pm.expect(dateOfBirth).to.not.eql(changedDoB);\r",
+											"  pm.expect(json.dateOfBirth).to.eql(changedDoB);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "dateOfBirth- Same value",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\r",
+											"  \"changedFirstName\",\r",
+											"  pm.environment.get(\"name\") + \"UPD\"\r",
+											");\r",
+											"\r",
+											"pm.environment.set(\r",
+											"  \"changedLastName\",\r",
+											"  pm.environment.get(\"surname\") + \"UPD\"\r",
+											");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const json = pm.response.json();\r",
+											"const name = pm.environment.get(\"name\");\r",
+											"const surname = pm.environment.get(\"surname\");\r",
+											"const dateOfBirth = pm.environment.get(\"dateOfBirth\");\r",
+											"const changedFirstName = pm.environment.get(\"changedFirstName\");\r",
+											"const changedLastName = pm.environment.get(\"changedLastName\");\r",
+											"\r",
+											"pm.test(\"firstName changed correctly\", function () {\r",
+											"  pm.expect(name).to.not.eql(changedFirstName);\r",
+											"  pm.expect(json.firstName).to.eql(changedFirstName);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"lastName changed correctly\", function () {\r",
+											"  pm.expect(surname).to.not.eql(changedLastName);\r",
+											"  pm.expect(json.lastName).to.eql(changedLastName);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"dateOfBirth is not changed\", function () {\r",
+											"  pm.expect(json.dateOfBirth).to.eql(dateOfBirth);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+									"protocol": "https",
+									"host": [
+										"qa-course-01-api",
+										"andersenlab",
+										"com"
+									],
+									"path": [
+										"api",
+										"secured",
+										"account",
+										"edit"
+									]
+								},
+								"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "End to end flow",
+			"item": [
+				{
+					"name": "User registration",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+									"\r",
+									"function randName(n) {\r",
+									"let s = '';\r",
+									"while (s.length < n)\r",
+									"s += String.fromCharCode(Math.random() *\r",
+									"127).replace(/\\W|\\dl_/g,'');\r",
+									"return s;\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+									"\r",
+									"var currentDate = new Date();\r",
+									"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+									"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var responseJson = pm.response.json();\r",
+									"pm.environment.set(\"token\", responseJson[\"jwt-token\"]);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"{{name}}\",\r\n  \"lastName\": \"{{surname}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"dateOfBirth\": \"{{dateOfBirth}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/public/registration",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"public",
+								"registration"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/registration' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"email\": \"S.Ivanov@gmail.com\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "User authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var responseJson = pm.response.json();\r",
+									"pm.environment.set(\"token\", responseJson[\"jwt-token\"]);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/public/login",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"public",
+								"login"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/login' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve user information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json();\r",
+									"const name = pm.environment.get(\"name\");\r",
+									"const surname = pm.environment.get(\"surname\");\r",
+									"const email = pm.environment.get(\"email\");\r",
+									"const dateOfBirth = pm.environment.get(\"dateOfBirth\");\r",
+									"\r",
+									"pm.test(\"firstName is correct\", function () {\r",
+									"  pm.expect(json.firstName).to.eql(name);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"lastName is correct\", function () {\r",
+									"  pm.expect(json.lastName).to.eql(surname);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"email is correct\", function () {\r",
+									"  pm.expect(json.email).to.eql(email);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"dateOfBirth is correct\", function () {\r",
+									"  pm.expect(json.dateOfBirth).to.eql(dateOfBirth);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/view",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"secured",
+								"account",
+								"view"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/view' \\\r\n  -H 'accept: */*'"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user data",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\r",
+									"  \"changedFirstName\",\r",
+									"  pm.environment.get(\"name\") + \"UPD\"\r",
+									");\r",
+									"\r",
+									"pm.environment.set(\r",
+									"  \"changedLastName\",\r",
+									"  pm.environment.get(\"surname\") + \"UPD\"\r",
+									");\r",
+									"\r",
+									"const moment = require('moment');\r",
+									"\r",
+									"let randomDate = moment().add(-5, 'years').add(-7,\r",
+									"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+									"\r",
+									"pm.environment.set(\"changedDoB\", randomDate);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json();\r",
+									"const name = pm.environment.get(\"name\");\r",
+									"const surname = pm.environment.get(\"surname\");\r",
+									"const dateOfBirth = pm.environment.get(\"dateOfBirth\");\r",
+									"const changedFirstName = pm.environment.get(\"changedFirstName\");\r",
+									"const changedLastName = pm.environment.get(\"changedLastName\");\r",
+									"const changedDoB = pm.environment.get(\"changedDoB\");\r",
+									"\r",
+									"pm.test(\"firstName changed correctly\", function () {\r",
+									"  pm.expect(name).to.not.eql(changedFirstName);\r",
+									"  pm.expect(json.firstName).to.eql(changedFirstName);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"lastName changed correctly\", function () {\r",
+									"  pm.expect(surname).to.not.eql(changedLastName);\r",
+									"  pm.expect(json.lastName).to.eql(changedLastName);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"dateOfBirth changed correctly\", function () {\r",
+									"  pm.expect(dateOfBirth).to.not.eql(changedDoB);\r",
+									"  pm.expect(json.dateOfBirth).to.eql(changedDoB);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"secured",
+								"account",
+								"edit"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/edit' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"firstName\": \"Sergey\",\r\n  \"lastName\": \"Ivanov\",\r\n  \"dateOfBirth\": \"01.08.2001\",\r\n  \"password\": \"string\"\r\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve information after update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json();\r",
+									"const changedFirstName = pm.environment.get(\"changedFirstName\");\r",
+									"const changedLastName = pm.environment.get(\"changedLastName\");\r",
+									"const changedDoB = pm.environment.get(\"changedDoB\");\r",
+									"\r",
+									"pm.test(\"firstName changed correctly\", function () {\r",
+									"  pm.expect(json.firstName).to.eql(changedFirstName);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"lastName changed correctly\", function () {\r",
+									"  pm.expect(json.lastName).to.eql(changedLastName);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"dateOfBirth changed correctly\", function () {\r",
+									"  pm.expect(json.dateOfBirth).to.eql(changedDoB);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/view",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"secured",
+								"account",
+								"view"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/view' \\\r\n  -H 'accept: */*'"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/delete",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"secured",
+								"account",
+								"delete"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'DELETE' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/delete' \\\r\n  -H 'accept: */*'"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve information after deletion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Error message is correct\", function () {\r",
+									"  pm.expect(json.error).to.eql(\"Invalid Login Credentials\"); \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/view",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"secured",
+								"account",
+								"view"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'GET' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/secured/account/view' \\\r\n  -H 'accept: */*'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pre-request scripts",
+			"item": [
+				{
+					"name": "registration → authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var responseJson = pm.response.json();\r",
+									"pm.environment.set(\"token\", responseJson[\"jwt-token\"]);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"const baseUrl = pm.collectionVariables.get(\"baseUrl\") || pm.environment.get(\"baseUrl\");\r",
+									"\r",
+									"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+									"\r",
+									"function randName(n) {\r",
+									"let s = '';\r",
+									"while (s.length < n)\r",
+									"s += String.fromCharCode(Math.random() *\r",
+									"127).replace(/\\W|\\dl_/g,'');\r",
+									"return s;\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+									"\r",
+									"var currentDate = new Date();\r",
+									"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+									"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+									"\r",
+									"const name = pm.environment.get(\"name\");\r",
+									"const surname = pm.environment.get(\"surname\")\r",
+									"const email = pm.environment.get(\"email\");\r",
+									"const password = pm.environment.get(\"password\");\r",
+									"const dateOfBirth = pm.environment.get(\"dateOfBirth\")\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"  url: baseUrl + \"/api/public/registration\",      \r",
+									"  method: \"POST\",\r",
+									"  header: { \"Content-Type\": \"application/json\" },\r",
+									"  body: {\r",
+									"    mode: \"raw\",\r",
+									"    raw: JSON.stringify({ \r",
+									"        \"firstName\": name,\r",
+									"        \"lastName\": surname,\r",
+									"        \"email\": email,\r",
+									"        \"dateOfBirth\": dateOfBirth,\r",
+									"        \"password\": password\r",
+									"    })\r",
+									"  },\r",
+									"},\r",
+									" function (err, response) {\r",
+									"    if (err) {\r",
+									"      console.log(\"Registration request error:\", err);\r",
+									"      return;\r",
+									"    }\r",
+									"\r",
+									"    console.log(\"Registration status:\", response.code);\r",
+									"    const json = response.json();\r",
+									"    pm.environment.set(\"token\", json[\"jwt-token\"]);\r",
+									"  }\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/public/login",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"public",
+								"login"
+							]
+						},
+						"description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://qa-course-01-api.andersenlab.com/api/public/login' \\\r\n  -H 'accept: */*' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "Reg + Auth → Update",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const baseUrl = pm.collectionVariables.get(\"baseUrl\") || pm.environment.get(\"baseUrl\");\r",
+									"\r",
+									"//registration\r",
+									"\r",
+									"pm.environment.set(\"name\", \"Viktoriya\" + randName(10))\r",
+									"\r",
+									"function randName(n) {\r",
+									"let s = '';\r",
+									"while (s.length < n)\r",
+									"s += String.fromCharCode(Math.random() *\r",
+									"127).replace(/\\W|\\dl_/g,'');\r",
+									"return s;\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"surname\", \"Osmolovskaya\" + randName(10))\r",
+									"\r",
+									"var currentDate = new Date();\r",
+									"var timestamp = currentDate.toISOString().split('.')[0].replace(/:/g, '-');\r",
+									"pm.environment.set(\"email\", \"osmolovskaya2000+\" + timestamp + \"@mail.ru\")\r",
+									"\r",
+									"const name = pm.environment.get(\"name\");\r",
+									"const surname = pm.environment.get(\"surname\")\r",
+									"const email = pm.environment.get(\"email\");\r",
+									"const password = pm.environment.get(\"password\");\r",
+									"const dateOfBirth = pm.environment.get(\"dateOfBirth\")\r",
+									"\r",
+									"const registrationRequest = {\r",
+									"     url: baseUrl + \"/api/public/registration\",      \r",
+									"  method: \"POST\",\r",
+									"  header: { \"Content-Type\": \"application/json\" },\r",
+									"  body: {\r",
+									"    mode: \"raw\",\r",
+									"    raw: JSON.stringify({ \r",
+									"        \"firstName\": name,\r",
+									"        \"lastName\": surname,\r",
+									"        \"email\": email,\r",
+									"        \"dateOfBirth\": dateOfBirth,\r",
+									"        \"password\": password\r",
+									"    })\r",
+									"  }\r",
+									"};\r",
+									"\r",
+									"pm.sendRequest(registrationRequest,(err, response) => {\r",
+									"    if (err) {\r",
+									"      console.log(\"Registration request error:\", err);\r",
+									"      return;\r",
+									"    }\r",
+									"\r",
+									"    console.log(\"Registration status:\", response.code);\r",
+									"    \r",
+									"//login\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"  url: baseUrl + \"/api/public/login\",      \r",
+									"  method: \"POST\",\r",
+									"  header: { \"Content-Type\": \"application/json\" },\r",
+									"  body: {\r",
+									"    mode: \"raw\",\r",
+									"    raw: JSON.stringify({ \r",
+									"        \"email\": email,\r",
+									"        \"password\": password\r",
+									"    })\r",
+									"  },\r",
+									"},\r",
+									" function (err, response) {\r",
+									"    if (err) {\r",
+									"      console.log(\"Login request error:\", err);\r",
+									"      return;\r",
+									"    }\r",
+									"\r",
+									"    console.log(\"Login status:\", response.code);\r",
+									"    const json = response.json();\r",
+									"    pm.environment.set(\"token\", json[\"jwt-token\"]);\r",
+									"\r",
+									"    //update\r",
+									"\r",
+									"pm.environment.set(\r",
+									"  \"changedFirstName\", name + \"UPD\"\r",
+									");\r",
+									"\r",
+									"pm.environment.set(\r",
+									"  \"changedLastName\", surname + \"UPD\"\r",
+									");\r",
+									"\r",
+									"const moment = require('moment');\r",
+									"\r",
+									"let randomDate = moment().add(-5, 'years').add(-7,\r",
+									"'month').add(-23, 'days').format(\"DD.MM.YYYY\");\r",
+									"\r",
+									"pm.environment.set(\"changedDoB\", randomDate);\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"  }\r",
+									");\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json();\r",
+									"const name = pm.environment.get(\"name\");\r",
+									"const surname = pm.environment.get(\"surname\");\r",
+									"const dateOfBirth = pm.environment.get(\"dateOfBirth\");\r",
+									"const changedFirstName = pm.environment.get(\"changedFirstName\");\r",
+									"const changedLastName = pm.environment.get(\"changedLastName\");\r",
+									"const changedDoB = pm.environment.get(\"changedDoB\");\r",
+									"\r",
+									"pm.test(\"firstName changed correctly\", function () {\r",
+									"  pm.expect(name).to.not.eql(changedFirstName);\r",
+									"  pm.expect(json.firstName).to.eql(changedFirstName);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"lastName changed correctly\", function () {\r",
+									"  pm.expect(surname).to.not.eql(changedLastName);\r",
+									"  pm.expect(json.lastName).to.eql(changedLastName);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"dateOfBirth changed correctly\", function () {\r",
+									"  pm.expect(dateOfBirth).to.not.eql(changedDoB);\r",
+									"  pm.expect(json.dateOfBirth).to.eql(changedDoB);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"{{changedFirstName}}\",\r\n  \"lastName\": \"{{changedLastName}}\",\r\n  \"dateOfBirth\": \"{{changedDoB}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa-course-01-api.andersenlab.com/api/secured/account/edit",
+							"protocol": "https",
+							"host": [
+								"qa-course-01-api",
+								"andersenlab",
+								"com"
+							],
+							"path": [
+								"api",
+								"secured",
+								"account",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
