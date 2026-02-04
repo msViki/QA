@@ -1,1 +1,1 @@
-
+Professional certifications and completed training programs
