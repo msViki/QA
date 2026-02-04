@@ -1,5 +1,5 @@
-Completed SQL exercises demonstrating database querying skills:
+### Completed SQL exercises demonstrating database querying skills:
 
-SELECT statements with various conditions
-Data filtering and sorting
-Working with multiple tables
+- SELECT statements with various conditions  
+- Data filtering and sorting  
+- Working with multiple tables  
