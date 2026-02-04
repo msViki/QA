@@ -1,5 +1,1 @@
-### Sample bug reports from testing web and mobile applications:
-
-- Taxi booking application
-- Test drive application
-- Washing machines mobile app
+Sample bug reports demonstrating professional defect documentation skills for web and mobile applications
