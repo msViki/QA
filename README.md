@@ -5,7 +5,7 @@ Junior QA Engineer building a foundation in software testing. This repository sh
 
 ## 🛠️ Tools & Technologies
 
-- Test Management: Test case design, checklist creation
+- Test Management: Qase, TestIT
 - API Testing: Postman, Swagger/OpenAPI
 - Bug Tracking: Jira (bug report documentation)
 - Database: SQL
